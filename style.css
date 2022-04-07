@@ -30,9 +30,9 @@ body{
     font-size: 15px;
 }
 .color-box{
-    width: 100px;
-    height: 100px;
-    margin: 5px;
+    width: 7rem;
+    height: 7rem;
+    margin: .75rem;
     border: 1px black solid;
 }
 

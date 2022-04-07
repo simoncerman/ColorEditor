@@ -1,17 +1,26 @@
 class ColorEditor {
   constructor() {
-    this.ranges = document.getElementsByClassName("ColorRange");
-    this.values = document.getElementsByClassName("ColorValue");
+    let rangeR = document.getElementById("rangeR");
+    let rangeG = document.getElementById("rangeG");
+    let rangeB = document.getElementById("rangeB");
 
+    let inputR = document.getElementById("inputR");
+    let inputG = document.getElementById("inputG");
+    let inputB = document.getElementById("inputB");
+
+    this.ranges = [rangeR, rangeG, rangeB];
+    this.values = [inputR, inputG, inputB];
+
+    console.log(this.ranges);
     //updating on change of range input / number input
-    [...this.ranges].forEach((element) => {
+    this.ranges.map((element) => {
       element.addEventListener("change", () => {
         this.updateValues();
         this.updateColor();
         this.updateReverseColor();
       });
     });
-    [...this.values].forEach((element) => {
+    this.values.map((element) => {
       element.addEventListener("change", () => {
         this.updateRanges();
         this.updateColor();
@@ -61,11 +70,14 @@ class ColorEditor {
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function () {
+      //set color if server respond correctly
       if (http.readyState == 4 && http.status == 200) {
-        //set color if server respond correctly
+        //reversed color
+        let rC = JSON.parse(http.responseText);
+
         document.getElementById(
           "reversed-color"
-        ).style.backgroundColor = `rgb(${http.responseText})`;
+        ).style.backgroundColor = `rgb(${rC["R"]},${rC["G"]},${rC["B"]})`;
       }
     };
     http.send(params);
